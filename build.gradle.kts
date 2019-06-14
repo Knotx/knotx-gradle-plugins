@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import org.nosphere.apache.rat.RatTask
 
 plugins {
     `kotlin-dsl`
@@ -25,7 +24,8 @@ tasks.rat {
     excludes.addAll(
             "README.md", "CODE_OF_CONDUCT.md",
             ".gradletasknamecache", "gradle/wrapper/**", "gradlew*", "build/**", // Gradle
-            ".nb-gradle/**", "*.iml", "*.ipr", "*.iws", "*.idea/**" // IDEs
+            ".nb-gradle/**", "*.iml", "*.ipr", "*.iws", "*.idea/**", // IDEs
+            ".travis.yml" // Tools
     )
 }
 
