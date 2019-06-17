@@ -1,3 +1,5 @@
+import groovy.util.Node
+
 /*
  * Copyright (C) 2019 Knot.x Project
  *
@@ -49,36 +51,6 @@ tasks.named<Javadoc>("javadoc") {
 
 fun configure(publication: MavenPublication) {
     publication.pom {
-        if (publication.name == "io.knotx.codegenPluginMarkerMaven") {
-            withXml {
-                asNode().appendNode("name", "Knot.x Gradle Codegen Plugin")
-                asNode().appendNode("description", "Vert.x Codegen dependencies setup.")
-            }
-        }
-        if (publication.name == "io.knotx.codegen-testPluginMarkerMaven") {
-            name.set("Knot.x Gradle Codegen Test Plugin")
-            description.set("Vert.x Codegen dependencies for Unit tests.")
-        }
-        if (publication.name == "io.knotx.jacocoPluginMarkerMaven") {
-            name.set("Knot.x Gradle Jacoco Plugin")
-            description.set("Jacoco plugin setup to measure tests coverage.")
-        }
-        if (publication.name == "io.knotx.java-libraryPluginMarkerMaven") {
-            name.set("Knot.x Gradle Java Library Plugin")
-            description.set("Base java settings for Knot.x modules.")
-        }
-        if (publication.name == "io.knotx.maven-publishPluginMarkerMaven") {
-            name.set("Knot.x Gradle Maven Publish Plugin")
-            description.set("Defaults for maven-publish plugin in Knot.x modules.")
-        }
-        if (publication.name == "io.knotx.publish-all-compositePluginMarkerMaven") {
-            name.set("Knot.x Gradle Composite Plugin")
-            description.set("Publish all support for Knot.x Aggregator.")
-        }
-        if (publication.name == "io.knotx.unit-testPluginMarkerMaven") {
-            name.set("Knot.x Gradle Unit Test Plugin")
-            description.set("JUnit 5 tests support.")
-        }
         url.set("http://knotx.io")
         licenses {
             license {
@@ -103,6 +75,46 @@ fun configure(publication: MavenPublication) {
             developerConnection.set("scm:git:ssh://github.com:Knotx/knotx-gradle-plugins.git")
             url.set("http://knotx.io")
         }
+        withXml {
+            setNameAndDescription(asNode(), publication.name)
+        }
+    }
+}
+
+fun setNameAndDescription(node: Node, publicationName: String) {
+    when (publicationName) {
+        "io.knotx.codegenPluginMarkerMaven" -> {
+            node.appendNode("name", "Knot.x Gradle Codegen Plugin")
+            node.appendNode("description", "Vert.x Codegen dependencies setup.")
+        }
+        "io.knotx.codegen-testPluginMarkerMaven" -> {
+            node.appendNode("name", "Knot.x Gradle Codegen Test Plugin")
+            node.appendNode("description", "Vert.x Codegen dependencies for Unit tests.")
+        }
+        "io.knotx.jacocoPluginMarkerMaven" -> {
+            node.appendNode("name", "Knot.x Gradle Jacoco Plugin")
+            node.appendNode("description", "Jacoco plugin setup to measure tests coverage.")
+        }
+        "io.knotx.java-libraryPluginMarkerMaven" -> {
+            node.appendNode("name", "Knot.x Gradle Java Library Plugin")
+            node.appendNode("description", "Base java settings for Knot.x modules.")
+        }
+        "io.knotx.maven-publishPluginMarkerMaven" -> {
+            node.appendNode("name", "Knot.x Gradle Maven Publish Plugin")
+            node.appendNode("description", "Defaults for maven-publish plugin in Knot.x modules.")
+        }
+        "io.knotx.publish-all-compositePluginMarkerMaven" -> {
+            node.appendNode("name", "Knot.x Gradle Composite Plugin")
+            node.appendNode("description", "Publish all support for Knot.x Aggregator.")
+        }
+        "io.knotx.unit-testPluginMarkerMaven" -> {
+            node.appendNode("name", "Knot.x Gradle Unit Test Plugin")
+            node.appendNode("description", "JUnit 5 tests support.")
+        }
+        "pluginMaven" -> {
+            node.appendNode("name", "Knot.x Gradle Plugins")
+            node.appendNode("description", "Knot.x Gradle Plugins minimize Knot.x modules Gradle configuration.")
+        }
     }
 }
 
@@ -113,10 +125,6 @@ publishing {
             from(components["java"])
             artifact(sourcesJar.get())
             artifact(javadocJar.get())
-            pom {
-                name.set("Knot.x Gradle Plugins")
-                description.set("Knot.x Gradle Plugins minimize Knot.x modules Gradle configuration.")
-            }
         }
         configure {
             withType(MavenPublication::class) {
