@@ -1,6 +1,3 @@
-import org.gradle.api.publish.maven.MavenPom
-import org.jetbrains.kotlin.psi.whenExpressionVisitor
-
 /*
  * Copyright (C) 2019 Knot.x Project
  *
@@ -53,8 +50,10 @@ tasks.named<Javadoc>("javadoc") {
 fun configure(publication: MavenPublication) {
     publication.pom {
         if (publication.name == "io.knotx.codegenPluginMarkerMaven") {
-            name.set("Knot.x Gradle Codegen Plugin")
-            description.set("Vert.x Codegen dependencies setup.")
+            withXml {
+                asNode().appendNode("name", "Knot.x Gradle Codegen Plugin")
+                asNode().appendNode("description", "Vert.x Codegen dependencies setup.")
+            }
         }
         if (publication.name == "io.knotx.codegen-testPluginMarkerMaven") {
             name.set("Knot.x Gradle Codegen Test Plugin")
