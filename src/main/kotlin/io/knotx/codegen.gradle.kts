@@ -32,10 +32,9 @@ dependencies {
 
 tasks.named<JavaCompile>("compileJava") {
     options.annotationProcessorGeneratedSourcesDirectory = file("src/main/generated")
-    options.compilerArgs = listOf(
+    options.compilerArgs.addAll(listOf(
             "-processor", "io.vertx.codegen.CodeGenProcessor",
-            "-Acodegen.output=${project.projectDir}/docs"
-    )
+            "-Acodegen.output=${project.projectDir}/docs"))
 }
 
 sourceSets.named("main") {

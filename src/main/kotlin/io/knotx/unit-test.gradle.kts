@@ -23,9 +23,7 @@ plugins {
 }
 
 tasks.withType<JavaCompile>().configureEach {
-    with(options) {
-        compilerArgs = listOf("-parameters")
-    }
+    options.compilerArgs.add("-parameters")
 }
 
 tasks.withType<Test>().configureEach {
