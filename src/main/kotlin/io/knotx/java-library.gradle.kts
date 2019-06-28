@@ -21,11 +21,11 @@ plugins {
 
 tasks.register<Jar>("sourcesJar") {
     from(sourceSets.named("main").get().allJava)
-    classifier = "sources"
+    archiveClassifier.set("sources")
 }
 tasks.register<Jar>("javadocJar") {
     from(tasks.named<Javadoc>("javadoc"))
-    classifier = "javadoc"
+    archiveClassifier.set("javadoc")
 }
 tasks.named<Javadoc>("javadoc") {
     if (JavaVersion.current().isJava9Compatible) {
