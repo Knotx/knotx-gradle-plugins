@@ -15,6 +15,8 @@
  */
 package io.knotx
 
+import org.gradle.api.tasks.TaskProvider
+
 val publishTask: TaskProvider<Task> = tasks.register("publish") {
     group = "composite-build"
 }

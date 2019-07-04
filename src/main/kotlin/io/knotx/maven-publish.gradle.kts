@@ -65,7 +65,7 @@ publishing {
                 credentials {
                     username = if (project.hasProperty("ossrhUsername")) project.property("ossrhUsername")?.toString() else "UNKNOWN"
                     password = if (project.hasProperty("ossrhPassword")) project.property("ossrhPassword")?.toString() else "UNKNOWN"
-                    println("Connecting with user: ${username}")
+                    println("Connecting with user: $username")
                 }
             }
         }

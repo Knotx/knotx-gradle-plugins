@@ -21,6 +21,22 @@ plugins {
     `maven-publish`
     signing
     id("org.nosphere.apache.rat") version "0.4.0"
+    id("com.jfrog.bintray") version "1.8.4"
+}
+
+repositories {
+    mavenLocal()
+    gradlePluginPortal()
+    jcenter()
+    maven { url = uri("https://plugins.gradle.org/m2/") }
+    maven { url = uri("http://dl.bintray.com/cognifide/maven-public") }
+    maven { url = uri("https://dl.bintray.com/neva-dev/maven-public") }
+}
+
+dependencies {
+    implementation("org.nosphere.apache:creadur-rat-gradle:0.4.0")
+    implementation("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
+    implementation("org.jfrog.buildinfo:build-info-extractor-gradle:4.9.7")
 }
 
 tasks.rat {
@@ -83,6 +99,10 @@ fun configure(publication: MavenPublication) {
 
 fun setNameAndDescription(node: Node, publicationName: String) {
     when (publicationName) {
+        "io.knotx.bintray-publishPluginMarkerMaven" -> {
+            node.appendNode("name", "Knot.x Gradle JCenter/Bintray Publish Plugin")
+            node.appendNode("description", "Defaults for publishing in JCenter repository for Knot.x modules.")
+        }
         "io.knotx.codegenPluginMarkerMaven" -> {
             node.appendNode("name", "Knot.x Gradle Codegen Plugin")
             node.appendNode("description", "Vert.x Codegen dependencies setup.")
@@ -107,6 +127,10 @@ fun setNameAndDescription(node: Node, publicationName: String) {
             node.appendNode("name", "Knot.x Gradle Composite Plugin")
             node.appendNode("description", "Publish all support for Knot.x Aggregator.")
         }
+        "io.knotx.ratPluginMarkerMaven" -> {
+            node.appendNode("name", "Knot.x Gradle Rat Plugin")
+            node.appendNode("description", "Detects missing or wrong licenses in Knot.x project files that should have them.")
+        }
         "io.knotx.unit-testPluginMarkerMaven" -> {
             node.appendNode("name", "Knot.x Gradle Unit Test Plugin")
             node.appendNode("description", "JUnit 5 tests support.")
@@ -126,7 +150,7 @@ publishing {
             artifact(sourcesJar.get())
             artifact(javadocJar.get())
         }
-        configure {
+        configure<PublishingExtension> {
             withType(MavenPublication::class) {
                 configure(this)
             }
