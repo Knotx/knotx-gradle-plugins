@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/knotx/Knotx/_apis/build/status/Knotx.knotx-gradle-plugins?branchName=master)](https://dev.azure.com/knotx/Knotx/_build/latest?definitionId=14&branchName=master)
+
 # knotx-gradle-plugins
 Gradle plugins that help manage Knot.x modules builds.
 
