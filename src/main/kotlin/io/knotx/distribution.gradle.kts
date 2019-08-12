@@ -20,7 +20,6 @@ val distributionDir = file("${buildDir}/out")
 val stackName = "knotx"
 val stackDistribution = "knotx-stack-${version}.zip"
 val knotxVersion = project.property("knotx.version")
-val isAssembleDistribution = project.hasProperty("knotx.assembleDistribution")
 val configDir = project.property("knotx.conf")
 
 configurations {
@@ -55,13 +54,6 @@ val downloadDeps = tasks.register<Copy>("downloadDeps") {
     mustRunAfter("cleanDistribution")
 }
 
-val assembleDistribution = tasks.register<Zip>("assembleDistribution") {
-    group = "distribution"
-
-    archiveName = stackDistribution
-    from(distributionDir)
-}
-
 val downloadStack = tasks.register<Copy>("downloadStack") {
     group = "distribution"
 
@@ -79,19 +71,32 @@ val unzipStack = tasks.register<Copy>("unzipStack") {
 }
 
 
-val assembleBaseDistribution = tasks.register("assembleBaseDistribution"){
+/**
+ * Overwrites custom configs and dependencies
+ */
+val overwriteCustomFiles = tasks.register("overwriteCustomFiles"){
     group = "distribution"
 
     dependsOn(copyConfigs, downloadDeps)
+
+    mustRunAfter("downloadBaseDistribution")
 }
 
-assembleDistribution {
-    dependsOn(assembleBaseDistribution)
+/**
+ * Downloads and unpacks base knotx stack distribution
+ */
+val downloadBaseDistribution = tasks.register("downloadBaseDistribution") {
+    dependsOn(downloadStack, unzipStack)
 }
 
-if(isAssembleDistribution) {
-    copyConfigs { dependsOn(downloadStack, unzipStack) }
+/**
+ * Assemble custom zipped distribution
+ */
+tasks.register<Zip>("assembleCustomDistribution") {
+    group = "distribution"
 
-    tasks.named("build") { finalizedBy(assembleDistribution) }
-    tasks.named("clean") { dependsOn(cleanDistribution) }
+    archiveName = stackDistribution
+    from(distributionDir)
+
+    dependsOn(downloadBaseDistribution, overwriteCustomFiles)
 }
