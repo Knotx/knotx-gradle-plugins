@@ -21,6 +21,18 @@ Then point to the root directory with the `Knot.x` configuration, setting the `k
 ```
 knotx.conf=src/main/packaging
 ```
+Now you can configure `clean` and `build` tasks with Knot.x Distribution Plugin tasks (see their descriptions below):
+
+```
+tasks.named("build") { finalizedBy("assembleCustomDistribution") }
+tasks.named("clean") { dependsOn("cleanDistribution") }
+```
+All your custom modules can be easily configured with the `dist` configuration, e.g:
+```
+dependencies {
+    subprojects.forEach { "dist"(project(":${it.name}")) }
+}
+```
 
 #### Available tasks
  - `overwriteCustomFiles` - copies/replaces files from the directory specified in the `knotx.conf` property to `build/out/knotx`. In addition, all dependencies form `dist` are copied to  `build/out/lib`.  
@@ -30,15 +42,7 @@ knotx.conf=src/main/packaging
 #### Examples
 
 ##### ZIPed distribution 
-Add the following lines to your `build.gradle.kts`:
-```
-plugins {
-    id("io.knotx.distribution") version "CURRENT_VERSION"
-}
-tasks.named("build") { finalizedBy("assembleCustomDistribution") }
-tasks.named("clean") { dependsOn("cleanDistribution") }
-```
-or check the [Getting Started with Knot.x Stack](https://github.com/Knotx/knotx-example-project/tree/master/getting-started) example project.
+Check the [Getting Started with Knot.x Stack](https://github.com/Knotx/knotx-example-project/tree/master/getting-started) example project as a reference.
 
 ##### Docker distribution
 Check [Knot.x Starter Kit](https://github.com/Knotx/knotx-starter-kit) as a reference.
