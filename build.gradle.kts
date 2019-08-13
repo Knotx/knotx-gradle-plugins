@@ -113,7 +113,7 @@ fun setNameAndDescription(node: Node, publicationName: String) {
         }
         "io.knotx.distributionPluginMarkerMaven" -> {
             node.appendNode("name", "Knot.x Gradle Distribution Plugin")
-            node.appendNode("description", "JUnit 5 tests support.")
+            node.appendNode("description", "A set of tasks that allow you to customize the Knot.x Stack / distribution")
         }
         "pluginMaven" -> {
             node.appendNode("name", "Knot.x Gradle Plugins")
