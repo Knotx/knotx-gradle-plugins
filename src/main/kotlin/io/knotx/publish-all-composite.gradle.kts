@@ -31,4 +31,12 @@ subprojects {
             dependsOn("${this@subprojects.path}:publishToMavenLocal")
         }
     }
+    plugins.withType<JavaPlugin> {
+        publishTask {
+            dependsOn(dependsOn("${this@subprojects.path}:test"))
+        }
+        publishLocalTask {
+            dependsOn("${this@subprojects.path}:test")
+        }
+    }
 }
