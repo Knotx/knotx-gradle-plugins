@@ -15,26 +15,17 @@
  */
 package io.knotx
 
-val publishTask: TaskProvider<Task> = tasks.register("publish") {
-    group = "composite-build"
-}
 val publishLocalTask: TaskProvider<Task> = tasks.register("publishToMavenLocal") {
     group = "composite-build"
 }
 
 subprojects {
     plugins.withId("maven-publish") {
-        publishTask {
-            dependsOn("${this@subprojects.path}:publish")
-        }
         publishLocalTask {
             dependsOn("${this@subprojects.path}:publishToMavenLocal")
         }
     }
     plugins.withType<JavaPlugin> {
-        publishTask {
-            dependsOn(dependsOn("${this@subprojects.path}:test"))
-        }
         publishLocalTask {
             dependsOn("${this@subprojects.path}:test")
         }
