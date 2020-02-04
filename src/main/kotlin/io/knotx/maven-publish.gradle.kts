@@ -68,6 +68,11 @@ publishing {
         }
     }
 }
+
+signing {
+    sign(publishing.publications["mavenJava"])
+}
+
 extra["isReleaseVersion"] = !version.toString().endsWith("SNAPSHOT")
 tasks.withType<Sign>().configureEach {
     onlyIf { project.extra["isReleaseVersion"] as Boolean }
