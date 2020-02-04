@@ -37,7 +37,6 @@ tasks.withType<Test>().configureEach {
     }
 
     dependencies {
-        testImplementation("io.knotx:knotx-junit5:${project.version}")
         testImplementation(group = "io.vertx", name = "vertx-junit5")
         testImplementation(group = "io.vertx", name = "vertx-unit")
         testImplementation("org.junit.jupiter:junit-jupiter-api")
