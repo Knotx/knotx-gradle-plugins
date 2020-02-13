@@ -25,10 +25,10 @@ plugins {
 
 tasks.rat {
     excludes.addAll(
-            "README.md", "CODE_OF_CONDUCT.md",
+            "*.md",
             ".gradletasknamecache", "gradle/wrapper/**", "gradlew*", "build/**", // Gradle
             ".nb-gradle/**", "*.iml", "*.ipr", "*.iws", "*.idea/**", // IDEs
-            ".travis.yml" // Tools
+            "azure-pipelines.yml" // Tools
     )
 }
 
@@ -155,7 +155,6 @@ signing {
         gradle.taskGraph.hasTask(":publish") ||
                 gradle.taskGraph.hasTask(":publishMavenJavaPublicationToMavenRepository")
     }
-
     sign(publishing.publications)
 }
 
