@@ -1,5 +1,3 @@
-import groovy.util.Node
-
 /*
  * Copyright (C) 2019 Knot.x Project
  *
@@ -15,24 +13,24 @@ import groovy.util.Node
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 plugins {
     `kotlin-dsl`
-    `maven-publish`
-    signing
-    id("org.nosphere.apache.rat") version "0.4.0"
+    id("maven-publish")
+    id("signing")
+    id("org.nosphere.apache.rat") version "0.6.0"
 }
 
-tasks.rat {
-    excludes.addAll(
-            "*.md",
-            ".gradletasknamecache", "gradle/wrapper/**", "gradlew*", "build/**", // Gradle
-            ".nb-gradle/**", "*.iml", "*.ipr", "*.iws", "*.idea/**", // IDEs
-            "azure-pipelines.yml" // Tools
-    )
+tasks {
+    named<org.nosphere.apache.rat.RatTask>("rat") {
+        excludes.addAll(listOf(
+                "*.md",
+                ".gradletasknamecache", "gradle/wrapper/**", "gradlew*", "build/**", // Gradle
+                ".nb-gradle/**", "*.iml", "*.ipr", "*.iws", "*.idea/**", // IDEs
+                "azure-pipelines.yml" // Tools
+        ))
+    }
+    getByName("check").dependsOn("rat")
 }
-
-tasks.check { dependsOn(tasks.rat) }
 
 val sourcesJar by tasks.registering(Jar::class) {
     classifier = "sources"
@@ -81,7 +79,7 @@ fun configure(publication: MavenPublication) {
     }
 }
 
-fun setNameAndDescription(node: Node, publicationName: String) {
+fun setNameAndDescription(node: groovy.util.Node, publicationName: String) {
     when (publicationName) {
         "io.knotx.codegenPluginMarkerMaven" -> {
             node.appendNode("name", "Knot.x Gradle Codegen Plugin")
@@ -130,32 +128,25 @@ publishing {
             artifact(sourcesJar.get())
             artifact(javadocJar.get())
         }
-        configure {
+        configure<PublishingExtension> {
             withType(MavenPublication::class) {
                 configure(this)
             }
         }
         repositories {
             maven {
-                val releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-                val snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
-                url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
+                url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
                 credentials {
                     username = if (project.hasProperty("ossrhUsername")) project.property("ossrhUsername")?.toString() else "UNKNOWN"
                     password = if (project.hasProperty("ossrhPassword")) project.property("ossrhPassword")?.toString() else "UNKNOWN"
-                    println("Connecting with user: ${username}")
                 }
             }
         }
     }
 }
-
-signing {
-    setRequired {
-        gradle.taskGraph.hasTask(":publish") ||
-                gradle.taskGraph.hasTask(":publishMavenJavaPublicationToMavenRepository")
-    }
-    sign(publishing.publications)
+extra["isReleaseVersion"] = !version.toString().endsWith("SNAPSHOT")
+tasks.withType<Sign>().configureEach {
+    onlyIf { project.extra["isReleaseVersion"] as Boolean }
 }
 
 repositories {
