@@ -16,8 +16,8 @@
 package io.knotx
 
 plugins {
-    `maven-publish`
-    signing
+    id("maven-publish")
+    id("signing")
 }
 
 publishing {
@@ -59,25 +59,16 @@ publishing {
         }
         repositories {
             maven {
-                val releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-                val snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
-                url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
+                url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
                 credentials {
                     username = if (project.hasProperty("ossrhUsername")) project.property("ossrhUsername")?.toString() else "UNKNOWN"
                     password = if (project.hasProperty("ossrhPassword")) project.property("ossrhPassword")?.toString() else "UNKNOWN"
-                    println("Connecting with user: ${username}")
                 }
             }
         }
     }
 }
-
-val subProjectPath = this.path
-signing {
-    setRequired {
-        gradle.taskGraph.hasTask("$subProjectPath:publish") ||
-                gradle.taskGraph.hasTask("$subProjectPath:publishMavenJavaPublicationToMavenRepository")
-    }
-
-    sign(publishing.publications["mavenJava"])
+extra["isReleaseVersion"] = !version.toString().endsWith("SNAPSHOT")
+tasks.withType<Sign>().configureEach {
+    onlyIf { project.extra["isReleaseVersion"] as Boolean }
 }
