@@ -27,6 +27,18 @@ variables:
   workspaceDir: knotx-repos
 
 steps:
+  - task: Gradle@2		
+    inputs:		
+      workingDirectory: ''		
+      gradleWrapperFile: 'gradlew'		
+      gradleOptions: '-Xmx3072m'		
+      javaHomeOption: 'JDKVersion'		
+      jdkVersionOption: '1.8'		
+      jdkArchitectureOption: 'x64'		
+      publishJUnitResults: true		
+      testResultsFiles: '**/TEST-*.xml'		
+      tasks: 'build'		
+    displayName: "Build Gradle Plugins"
   - script: |
       git clone https://github.com/Knotx/knotx-aggregator.git
       mkdir $(workspaceDir)
