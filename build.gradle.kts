@@ -24,7 +24,7 @@ tasks {
     named<org.nosphere.apache.rat.RatTask>("rat") {
         excludes.addAll(listOf(
                 "*.md",
-                ".gradletasknamecache", "gradle/wrapper/**", "gradlew*", "build/**", // Gradle
+                ".gradletasknamecache", "gradle/wrapper/**", "gradlew*", "**/build/**", // Gradle
                 ".nb-gradle/**", "*.iml", "*.ipr", "*.iws", "*.idea/**", // IDEs
                 "azure-pipelines.yml" // Tools
         ))
