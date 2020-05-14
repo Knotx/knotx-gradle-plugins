@@ -1,5 +1,3 @@
-import groovy.util.Node
-
 /*
  * Copyright (C) 2019 Knot.x Project
  *
@@ -27,7 +25,7 @@ plugins {
 
 repositories {
     jcenter()
-    maven { url = uri("https://plugins.gradle.org/m2/") }
+    gradlePluginPortal()
 }
 
 dependencies {
@@ -194,9 +192,15 @@ publishing {
     }
 }
 
-extra["isReleaseVersion"] = !version.toString().endsWith("SNAPSHOT")
-tasks.withType<Sign>().configureEach {
-    onlyIf { project.extra["isReleaseVersion"] as Boolean }
+signing {
+    sign(publishing.publications["mavenJava"])
+}
+
+extra["isReleaseVersion"] = !project.version.toString().endsWith("SNAPSHOT")
+signing {
+    setRequired({
+        (project.extra["isReleaseVersion"] as Boolean) && gradle.taskGraph.hasTask("publish")
+    })
 }
 
 gradlePlugin {
@@ -211,4 +215,3 @@ gradlePlugin {
         }
     }
 }
-

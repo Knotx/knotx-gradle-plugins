@@ -35,11 +35,6 @@ publishing {
                 }
                 developers {
                     developer {
-                        id.set("marcinczeczko")
-                        name.set("Marcin Czeczko")
-                        email.set("https://github.com/marcinczeczko")
-                    }
-                    developer {
                         id.set("skejven")
                         name.set("Maciej Laskowski")
                         email.set("https://github.com/Skejven")
@@ -74,6 +69,8 @@ signing {
 }
 
 extra["isReleaseVersion"] = !version.toString().endsWith("SNAPSHOT")
-tasks.withType<Sign>().configureEach {
-    onlyIf { project.extra["isReleaseVersion"] as Boolean }
+signing {
+    setRequired({
+        (project.extra["isReleaseVersion"] as Boolean)
+    })
 }
