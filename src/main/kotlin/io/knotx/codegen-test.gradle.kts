@@ -20,7 +20,6 @@ plugins {
 }
 
 dependencies {
-    testAnnotationProcessor(platform("io.knotx:knotx-dependencies:${project.version}"))
     testAnnotationProcessor(group = "io.vertx", name = "vertx-codegen", classifier = "processor")
     testAnnotationProcessor(group = "io.vertx", name = "vertx-service-proxy", classifier = "processor")
     testAnnotationProcessor(group = "io.vertx", name = "vertx-rx-java2-gen")
