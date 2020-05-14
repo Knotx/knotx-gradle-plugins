@@ -12,6 +12,6 @@ repositories {
 tasks {
     register<io.knotx.release.common.ProjectVersionUpdateTask>("setKnotxVersion") {
         versionParamProperty = "version"
-        propertyKeyNameInFile = "knotx.version"
+        propertyKeyNameInFile = "knotxVersion"
     }
 }
