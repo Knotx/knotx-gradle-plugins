@@ -25,6 +25,7 @@ tasks.register<Jar>("sourcesJar") {
 }
 tasks.register<Jar>("javadocJar") {
     from(tasks.named<Javadoc>("javadoc"))
+    exclude("**/generated/**")
     archiveClassifier.set("javadoc")
 }
 tasks.named<Javadoc>("javadoc") {
