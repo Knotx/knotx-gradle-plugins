@@ -20,13 +20,11 @@ plugins {
 }
 
 dependencies {
-    annotationProcessor(platform("io.knotx:knotx-dependencies:${project.version}"))
     annotationProcessor(group = "io.vertx", name = "vertx-codegen", classifier = "processor")
     annotationProcessor(group = "io.vertx", name = "vertx-service-proxy", classifier = "processor")
     annotationProcessor(group = "io.vertx", name = "vertx-rx-java2-gen")
     annotationProcessor(group = "io.vertx", name = "vertx-web-api-service")
 
-    implementation(platform("io.knotx:knotx-dependencies:${project.version}"))
     implementation(group = "io.vertx", name = "vertx-codegen")
 }
 
