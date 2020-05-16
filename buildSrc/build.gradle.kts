@@ -13,13 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+plugins {
+    `kotlin-dsl`
+}
+
 repositories {
     mavenLocal()
     jcenter()
     gradlePluginPortal()
 }
+
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.70")
     implementation("com.gradle.plugin-publish:com.gradle.plugin-publish.gradle.plugin:0.10.1")
     implementation("org.nosphere.apache:creadur-rat-gradle:0.6.0")
+}
+
+sourceSets.main {
+    java.srcDirs("../src/main/release-base")
+}
+
+gradlePlugin {
+    plugins {
+        create("knotx-plugins-release-base-tmp") {
+            id = "knotx-plugins-release-base-tmp"
+            implementationClass = "io.knotx.release.KnotxReleaseBasePlugin"
+        }
+    }
 }
