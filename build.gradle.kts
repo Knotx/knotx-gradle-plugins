@@ -21,6 +21,7 @@ plugins {
     id("java-gradle-plugin")
     id("com.gradle.plugin-publish")
     id("org.nosphere.apache.rat")
+    `knotx-plugins-release-base-tmp`
 }
 
 repositories {
@@ -36,6 +37,10 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
     testCompile(gradleTestKit())
+}
+
+sourceSets.main {
+    java.srcDirs("src/main/kotlin", "src/main/release-base", "src/main/release-java")
 }
 
 val functionalTestSourceSet = sourceSets.create("functionalTest") {}
@@ -65,7 +70,7 @@ tasks {
         outputs.upToDateWhen { false }
     }
 
-    named<Task>("build") {
+    named("build") {
         dependsOn("functionalTest")
     }
 
@@ -82,6 +87,25 @@ tasks {
     named("check") {
         dependsOn(ratTask)
     }
+
+    named("build") {
+        mustRunAfter("setVersion")
+    }
+
+    named("updateChangelog") {
+        dependsOn("signMavenJavaPublication", "setVersion")
+    }
+
+    register("prepare") {
+        group = "release"
+        dependsOn("updateChangelog", "publishToMavenLocal")
+    }
+
+    register("publishArtifacts") {
+        group = "release"
+        dependsOn("publish")
+        logger.lifecycle("Publishing java artifacts")
+    }
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
@@ -96,7 +120,7 @@ val javadocJar by tasks.registering(Jar::class) {
 
 fun configure(publication: MavenPublication) {
     publication.pom {
-        url.set("http://knotx.io")
+        url.set("https://knotx.io")
         licenses {
             license {
                 name.set("The Apache Software License, Version 2.0")
@@ -118,7 +142,7 @@ fun configure(publication: MavenPublication) {
         scm {
             connection.set("scm:git:git://github.com/Knotx/knotx-gradle-plugins.git")
             developerConnection.set("scm:git:ssh://github.com:Knotx/knotx-gradle-plugins.git")
-            url.set("http://knotx.io")
+            url.set("https://knotx.io")
         }
         withXml {
             setNameAndDescription(asNode(), publication.name)
@@ -160,6 +184,14 @@ fun setNameAndDescription(node: groovy.util.Node, publicationName: String) {
             node.appendNode("name", "Knot.x Gradle Distribution Plugin")
             node.appendNode("description", "A set of tasks that allow you to customize the Knot.x Stack / distribution")
         }
+        "io.knotx.release-basePluginMarkerMaven" -> {
+            node.appendNode("name", "Knot.x Gradle Base Release Plugin")
+            node.appendNode("description", "Knot.x Gradle Release Base Plugin updates project version and changelog.")
+        }
+        "io.knotx.release-javaPluginMarkerMaven" -> {
+            node.appendNode("name", "Knot.x Gradle Java Release Plugin")
+            node.appendNode("description", "Knot.x Gradle Release Java Plugin handles signing and publication.")
+        }
         "pluginMaven" -> {
             node.appendNode("name", "Knot.x Gradle Plugins")
             node.appendNode("description", "Knot.x Gradle Plugins minimize Knot.x modules Gradle configuration.")
@@ -193,7 +225,7 @@ publishing {
 }
 
 signing {
-    sign(publishing.publications["mavenJava"])
+    sign(publishing.publications)
 }
 
 extra["isReleaseVersion"] = !project.version.toString().endsWith("SNAPSHOT")
