@@ -3,6 +3,8 @@ All notable changes to `knotx-fragments` will be documented in this file.
 
 ## Unreleased
 List of changes that are finished but not yet released in any final version.
+                
+## 2.2.0
 - [PR-10](https://github.com/Knotx/knotx-gradle-plugins/pull/10) Knot.x release gradle plugins
 
 ## 0.1.4
