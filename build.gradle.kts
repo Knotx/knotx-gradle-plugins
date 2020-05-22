@@ -76,7 +76,7 @@ tasks {
 
     val ratTask = named<org.nosphere.apache.rat.RatTask>("rat") {
         excludes.addAll(listOf(
-                "*.md", // docs
+                "*.md", "**/*.md",// docs
                 ".gradletasknamecache", "gradle/wrapper/**", "gradlew*", "**/build/**", // Gradle
                 "src/test/resources/**", "src/functionalTest/resources/**", // tests resources
                 ".nb-gradle/**", "*.iml", "*.ipr", "*.iws", "*.idea/**", // IDEs
