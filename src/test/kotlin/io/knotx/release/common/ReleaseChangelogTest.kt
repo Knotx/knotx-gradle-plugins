@@ -16,7 +16,6 @@
 package io.knotx.release.common
 
 import org.gradle.api.GradleException
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -35,7 +34,7 @@ internal class ReleaseChangelogTest {
         // then
         assertTrue(actual.exists())
         val expected = "CHANGELOG-expected.md".fileContentAsString()
-        assertEquals(expected, actual.readText())
+        assertEqualsTrimIdent(expected, actual.readText())
     }
 
     @Test

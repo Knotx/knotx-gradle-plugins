@@ -16,8 +16,8 @@
 package io.knotx.release.common
 
 import org.gradle.api.GradleException
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -56,7 +56,7 @@ internal class UpdateProjectVersionTest {
         // then
         assertTrue(actual.exists())
         val expected = "gradle-expected.properties".fileContentAsString()
-        assertEquals(expected, actual.readText())
+        assertEqualsTrimIdent(expected, actual.readText())
     }
 
     @Test
@@ -70,7 +70,7 @@ internal class UpdateProjectVersionTest {
         // then
         assertTrue(actual.exists())
         val expected = "gradle.custom-expected.properties".fileContentAsString()
-        assertEquals(expected, actual.readText())
+        assertEqualsTrimIdent(expected, actual.readText())
     }
 
     @Test
@@ -84,7 +84,7 @@ internal class UpdateProjectVersionTest {
         // then
         assertTrue(actual.exists())
         val expected = "gradle.long-expected.properties".fileContentAsString()
-        assertEquals(expected, actual.readText())
+        assertEqualsTrimIdent(expected, actual.readText())
     }
 
     @Test
@@ -93,7 +93,7 @@ internal class UpdateProjectVersionTest {
         val fileToTest = createTempFile()
 
         // then
-        Assertions.assertThrows(GradleException::class.java) { updateProjectVersion(fileToTest, "2.0.0") }
+        assertThrows(GradleException::class.java) { updateProjectVersion(fileToTest, "2.0.0") }
     }
 
     @Test
@@ -102,7 +102,11 @@ internal class UpdateProjectVersionTest {
         val fileToTest = File("not-existing-file")
 
         // then
-        Assertions.assertThrows(FileNotFoundException::class.java) { updateProjectVersion(fileToTest, "2.0.0") }
+        assertThrows(FileNotFoundException::class.java) { updateProjectVersion(fileToTest, "2.0.0") }
+    }
+
+    private fun assertEqualsIgnoreEndlines(expected: String, actual: String) {
+        assertEquals(expected.trimIndent(), actual.trimIndent())
     }
 
     private fun String.asResourceFile() =

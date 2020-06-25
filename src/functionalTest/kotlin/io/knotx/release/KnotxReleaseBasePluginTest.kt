@@ -42,7 +42,7 @@ internal class KnotxReleaseBasePluginTest {
         assertNotNull(result)
         assertTrue(actual.exists())
         val expected = "$taskToTest/results/CHANGELOG.md".fileContentAsString()
-        assertEquals(expected, actual.readText())
+        assertEqualsTrimIdent(expected, actual.readText())
     }
 
     @Test
@@ -61,7 +61,7 @@ internal class KnotxReleaseBasePluginTest {
         assertNotNull(result)
         assertTrue(actual.exists())
         val expected = "$taskToTest/results/gradle.properties".fileContentAsString()
-        assertEquals(expected, actual.readText())
+        assertEqualsTrimIdent(expected, actual.readText())
     }
 
     @Test
@@ -80,7 +80,7 @@ internal class KnotxReleaseBasePluginTest {
         assertNotNull(result)
         assertTrue(actual.exists())
         val expected = "$taskToTest/results/gradle.properties".fileContentAsString()
-        assertEquals(expected, actual.readText())
+        assertEqualsTrimIdent(expected, actual.readText())
     }
 
     private fun GradleRunner.given(testResourcesRoot: String, task: String, args: List<String> = emptyList()) {
@@ -102,6 +102,10 @@ internal class KnotxReleaseBasePluginTest {
 
     private fun String.fileContentAsString() =
             KnotxReleaseBasePluginTest::javaClass.javaClass.classLoader.getResource(this)!!.readText()
+
+    private fun assertEqualsTrimIdent(expected: String, actual: String) {
+        assertEquals(expected.trimIndent(), actual.trimIndent())
+    }
 
     companion object {
         const val FUNCTIONAL_TESTS_DIR = "build/functionalTests"
