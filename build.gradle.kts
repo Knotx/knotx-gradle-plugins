@@ -172,9 +172,9 @@ fun setNameAndDescription(node: groovy.util.Node, publicationName: String) {
             node.appendNode("name", "Knot.x Gradle Maven Publish Plugin")
             node.appendNode("description", "Defaults for maven-publish plugin in Knot.x modules.")
         }
-        "io.knotx.publish-all-compositePluginMarkerMaven" -> {
+        "io.knotx.composite-build-supportPluginMarkerMaven" -> {
             node.appendNode("name", "Knot.x Gradle Composite Plugin")
-            node.appendNode("description", "Publish all support for Knot.x Aggregator.")
+            node.appendNode("description", "Composite build modules support for Knot.x Stack.")
         }
         "io.knotx.unit-testPluginMarkerMaven" -> {
             node.appendNode("name", "Knot.x Gradle Unit Test Plugin")

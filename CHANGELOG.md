@@ -3,6 +3,7 @@ All notable changes to `knotx-fragments` will be documented in this file.
 
 ## Unreleased
 List of changes that are finished but not yet released in any final version.
+- [PR-XX](https://github.com/Knotx/knotx-gradle-plugins/pull/XX) Add support for running tests for each composite-build modules tests (see  [Knotx/knotx-stack#57](https://github.com/Knotx/knotx-stack/issues/57)) and renamed `publish-all-composite` to `composite-build-support`
                 
 ## 2.2.0
 - [PR-10](https://github.com/Knotx/knotx-gradle-plugins/pull/10) Knot.x release gradle plugins

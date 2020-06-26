@@ -18,6 +18,8 @@ package io.knotx
 val publishLocalTask: TaskProvider<Task> = tasks.register("publishToMavenLocal") {
     group = "composite-build"
 }
+// to keep the root project context in subprojects section
+val theProject = project
 
 subprojects {
     plugins.withId("maven-publish") {
@@ -27,6 +29,11 @@ subprojects {
     }
     plugins.withType<JavaPlugin> {
         publishLocalTask {
+            dependsOn("${this@subprojects.path}:test")
+        }
+    }
+    plugins.withType<JavaPlugin> {
+        theProject.tasks.named("check") {
             dependsOn("${this@subprojects.path}:test")
         }
     }
