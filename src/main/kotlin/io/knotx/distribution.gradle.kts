@@ -18,7 +18,7 @@ package io.knotx
 val downloadDir = file("${buildDir}/download")
 val distributionDir = file("${buildDir}/out")
 val stackName = "knotx"
-val stackDistribution = "knotx-stack-${version}.zip"
+val stackDistribution = "knotx-stack"
 val knotxVersion = project.property("knotxVersion")
 val configDir = project.property("knotxConf")
 
@@ -28,7 +28,7 @@ configurations {
 }
 
 dependencies {
-    "zipped"(group = "io.knotx", name = "knotx-stack", version = "${knotxVersion}", ext = "zip")
+    "zipped"(group = "io.knotx", name = "knotx-stack", version = "$knotxVersion", ext = "zip")
 }
 
 val cleanDistribution = tasks.register<Delete>("cleanDistribution") {
@@ -67,7 +67,7 @@ val unzipStack = tasks.register<Copy>("unzipStack") {
     val zipPath = "${buildDir}/download/knotx-stack-${knotxVersion}.zip"
 
     from(zipTree(zipPath))
-    into("${distributionDir}")
+    into(distributionDir)
 }
 
 
@@ -95,7 +95,8 @@ val downloadBaseDistribution = tasks.register("downloadBaseDistribution") {
 tasks.register<Zip>("assembleCustomDistribution") {
     group = "distribution"
 
-    archiveName = stackDistribution
+    archiveBaseName.set(stackDistribution)
+    archiveExtension.set("zip")
     from(distributionDir)
 
     dependsOn(downloadBaseDistribution, overwriteCustomFiles)

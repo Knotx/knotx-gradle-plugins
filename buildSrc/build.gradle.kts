@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.70")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72")
     implementation("com.gradle.plugin-publish:com.gradle.plugin-publish.gradle.plugin:0.10.1")
     implementation("org.nosphere.apache:creadur-rat-gradle:0.6.0")
 }

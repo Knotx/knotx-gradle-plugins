@@ -30,7 +30,7 @@ repositories {
 }
 
 dependencies {
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.3.61"))
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.3.72"))
 
     implementation(gradleApi())
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
