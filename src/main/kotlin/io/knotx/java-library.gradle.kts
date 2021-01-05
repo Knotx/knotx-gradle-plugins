@@ -29,9 +29,10 @@ tasks.register<Jar>("javadocJar") {
     archiveClassifier.set("javadoc")
 }
 tasks.named<Javadoc>("javadoc") {
-    if (JavaVersion.current().isJava9Compatible) {
-        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
-    }
+    // we force JDK 8: https://docs.gradle.org/6.7/release-notes.html
+    //    if (JavaVersion.current().isJava9Compatible) {
+    //        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
+    //    }
 }
 
 tasks.withType<JavaCompile>().configureEach {
