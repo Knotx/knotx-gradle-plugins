@@ -29,7 +29,7 @@ private enum class ChangelogUpdateStatus {
  * Scans `changelogFile` and updates the version
  */
 fun releaseChangelog(changelogFile: File, version: String): File {
-    val tempFile = createTempFile()
+    val tempFile = File.createTempFile("knotx-changelog", null)
     var versionUpdated = ChangelogUpdateStatus.NOT_FOUND
 
     tempFile.printWriter().use { writer ->
@@ -59,7 +59,7 @@ fun releaseChangelog(changelogFile: File, version: String): File {
 }
 
 fun updateProjectVersion(propertiesFile: File, version: String, versionPropertyName: String = "version"): File {
-    val tempFile = createTempFile()
+    val tempFile = File.createTempFile("knotx-version", null)
     val versionRegex = projectVersionRegex(versionPropertyName)
 
     var updated = false

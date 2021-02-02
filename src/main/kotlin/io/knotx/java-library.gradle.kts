@@ -19,6 +19,12 @@ plugins {
     `java-library`
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
+}
+
 tasks.register<Jar>("sourcesJar") {
     from(sourceSets.named("main").get().allJava)
     archiveClassifier.set("sources")

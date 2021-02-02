@@ -19,6 +19,12 @@ plugins {
     java
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
+}
+
 dependencies {
     annotationProcessor(group = "io.vertx", name = "vertx-codegen", classifier = "processor")
     annotationProcessor(group = "io.vertx", name = "vertx-service-proxy", classifier = "processor")

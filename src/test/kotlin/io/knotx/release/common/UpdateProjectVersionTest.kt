@@ -90,7 +90,7 @@ internal class UpdateProjectVersionTest {
     @Test
     internal fun `GradleException thrown when file with invalid structure`() {
         // given
-        val fileToTest = createTempFile()
+        val fileToTest = File.createTempFile("knotx-test", null)
 
         // then
         assertThrows(GradleException::class.java) { updateProjectVersion(fileToTest, "2.0.0") }

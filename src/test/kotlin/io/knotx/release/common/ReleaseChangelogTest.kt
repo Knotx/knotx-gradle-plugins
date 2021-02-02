@@ -40,7 +40,7 @@ internal class ReleaseChangelogTest {
     @Test
     internal fun `GradleException thrown when file with invalid structure`() {
         // given
-        val changelogFile = createTempFile()
+        val changelogFile = File.createTempFile("knotx-changelog", null)
 
         // then
         assertThrows(GradleException::class.java) { releaseChangelog(changelogFile, "2.0.0") }
