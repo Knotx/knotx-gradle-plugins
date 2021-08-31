@@ -39,6 +39,8 @@ tasks.withType<Test>().configureEach {
     dependencies {
         testImplementation(group = "io.vertx", name = "vertx-junit5")
         testImplementation(group = "io.vertx", name = "vertx-unit")
+        testImplementation(group = "io.vertx", name = "vertx-rx-java")
+        testImplementation(group = "io.vertx", name = "vertx-rx-java2")
         testImplementation("org.junit.jupiter:junit-jupiter-api")
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     }
