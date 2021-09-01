@@ -68,6 +68,8 @@ val unzipStack = tasks.register<Copy>("unzipStack") {
 
     from(zipTree(zipPath))
     into(distributionDir)
+
+    dependsOn(downloadStack)
 }
 
 
@@ -86,7 +88,7 @@ val overwriteCustomFiles = tasks.register("overwriteCustomFiles"){
  * Downloads and unpacks base knotx stack distribution
  */
 val downloadBaseDistribution = tasks.register("downloadBaseDistribution") {
-    dependsOn(downloadStack, unzipStack)
+    dependsOn(unzipStack)
 }
 
 /**
