@@ -19,15 +19,21 @@ plugins {
     jacoco
 }
 
+val jacocoTestReport = tasks.getByName("jacocoTestReport")
+val test = tasks.getByName("test")
+
+jacocoTestReport.dependsOn(test);
+test.finalizedBy(jacocoTestReport);
+
 tasks.getByName<JacocoReport>("jacocoTestReport") {
     reports {
         sourceDirectories.from(fileTree("src/main/java"))
         classDirectories.from(fileTree("build/classes") {
             exclude("**/*Options*")
         })
-        xml.destination = File("$buildDir/reports/jacoco/report.xml")
-        html.isEnabled = true
-        xml.isEnabled = true
-        csv.isEnabled = false
+        xml.outputLocation.set(File("$buildDir/reports/jacoco/report.xml"))
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
     }
 }

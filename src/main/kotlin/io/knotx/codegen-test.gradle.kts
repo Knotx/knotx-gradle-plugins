@@ -27,7 +27,7 @@ dependencies {
 }
 
 tasks.named<JavaCompile>("compileTestJava") {
-    options.annotationProcessorGeneratedSourcesDirectory = file("src/test/generated")
+    options.generatedSourceOutputDirectory.set(file("src/test/generated"))
 }
 
 sourceSets.named("test") {

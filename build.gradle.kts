@@ -25,18 +25,18 @@ plugins {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
     gradlePluginPortal()
 }
 
 dependencies {
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.3.72"))
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.5.21"))
 
     implementation(gradleApi())
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
-    testCompile(gradleTestKit())
+    testImplementation(gradleTestKit())
 }
 
 sourceSets.main {
@@ -76,11 +76,11 @@ tasks {
 
     val ratTask = named<org.nosphere.apache.rat.RatTask>("rat") {
         excludes.addAll(listOf(
-                "*.md", "**/*.md",// docs
-                ".gradletasknamecache", "gradle/wrapper/**", "gradlew*", "**/build/**", // Gradle
-                "src/test/resources/**", "src/functionalTest/resources/**", // tests resources
-                ".nb-gradle/**", "*.iml", "*.ipr", "*.iws", "*.idea/**", // IDEs
-                "azure-pipelines.yml" // Tools
+            "**/*.md", // docs
+            "gradle/wrapper/**", "gradle*", "**/build/**", // Gradle
+            "*.iml", "*.ipr", "*.iws", "*.idea/**", // IDEs
+            "**/generated/*", "**/*.adoc", "**/resources/**", // assets
+            ".github/*"
         ))
     }
 
@@ -183,6 +183,10 @@ fun setNameAndDescription(node: groovy.util.Node, publicationName: String) {
         "io.knotx.distributionPluginMarkerMaven" -> {
             node.appendNode("name", "Knot.x Gradle Distribution Plugin")
             node.appendNode("description", "A set of tasks that allow you to customize the Knot.x Stack / distribution")
+        }
+        "io.knotx.ratPluginMarkerMaven" -> {
+            node.appendNode("name", "Knot.x Gradle Rat Plugin")
+            node.appendNode("description", "Knot.x Licenses verification.")
         }
         "io.knotx.release-basePluginMarkerMaven" -> {
             node.appendNode("name", "Knot.x Gradle Base Release Plugin")
