@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.io.FileNotFoundException
+import java.nio.file.Files
 
 internal class ReleaseChangelogTest {
 
@@ -40,7 +41,8 @@ internal class ReleaseChangelogTest {
     @Test
     internal fun `GradleException thrown when file with invalid structure`() {
         // given
-        val changelogFile = createTempFile()
+        val changelogFilePath = Files.createTempFile("tmp", "release")
+        val changelogFile = File(changelogFilePath.toUri())
 
         // then
         assertThrows(GradleException::class.java) { releaseChangelog(changelogFile, "2.0.0") }
