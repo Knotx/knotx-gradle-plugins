@@ -19,26 +19,20 @@ plugins {
     `java-library`
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+        vendor.set(JvmVendorSpec.ADOPTOPENJDK)
+    }
+}
+
 tasks.register<Jar>("sourcesJar") {
     from(sourceSets.named("main").get().allJava)
     archiveClassifier.set("sources")
 }
+
 tasks.register<Jar>("javadocJar") {
     from(tasks.named<Javadoc>("javadoc"))
     exclude("**/generated/**")
     archiveClassifier.set("javadoc")
-}
-tasks.named<Javadoc>("javadoc") {
-    // we force JDK 8: https://docs.gradle.org/6.7/release-notes.html
-    //    if (JavaVersion.current().isJava9Compatible) {
-    //        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
-    //    }
-}
-
-tasks.withType<JavaCompile>().configureEach {
-    with(options) {
-        sourceCompatibility = "1.8"
-        targetCompatibility = "1.8"
-        encoding = "UTF-8"
-    }
 }

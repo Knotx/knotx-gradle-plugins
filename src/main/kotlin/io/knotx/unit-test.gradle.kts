@@ -22,6 +22,15 @@ plugins {
     java
 }
 
+dependencies {
+    testImplementation(group = "io.vertx", name = "vertx-junit5")
+    testImplementation(group = "io.vertx", name = "vertx-unit")
+    testImplementation(group = "io.vertx", name = "vertx-rx-java")
+    testImplementation(group = "io.vertx", name = "vertx-rx-java2")
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+}
+
 tasks.withType<JavaCompile>().configureEach {
     options.compilerArgs.add("-parameters")
 }
@@ -34,14 +43,5 @@ tasks.withType<Test>().configureEach {
     testLogging {
         events = setOf(TestLogEvent.FAILED)
         exceptionFormat = TestExceptionFormat.SHORT
-    }
-
-    dependencies {
-        testImplementation(group = "io.vertx", name = "vertx-junit5")
-        testImplementation(group = "io.vertx", name = "vertx-unit")
-        testImplementation(group = "io.vertx", name = "vertx-rx-java")
-        testImplementation(group = "io.vertx", name = "vertx-rx-java2")
-        testImplementation("org.junit.jupiter:junit-jupiter-api")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     }
 }

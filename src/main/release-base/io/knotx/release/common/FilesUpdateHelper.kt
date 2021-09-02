@@ -17,6 +17,7 @@ package io.knotx.release.common
 
 import org.gradle.api.GradleException
 import java.io.File
+import java.nio.file.Files
 
 const val UNRELEASED_NOTICE = "## Unreleased"
 val UNRELEASED_NOTICE_REGEX = Regex(UNRELEASED_NOTICE)
@@ -29,7 +30,8 @@ private enum class ChangelogUpdateStatus {
  * Scans `changelogFile` and updates the version
  */
 fun releaseChangelog(changelogFile: File, version: String): File {
-    val tempFile = createTempFile()
+    val tempFilePath = Files.createTempFile("tmp", "release")
+    val tempFile = File(tempFilePath.toUri())
     var versionUpdated = ChangelogUpdateStatus.NOT_FOUND
 
     tempFile.printWriter().use { writer ->
@@ -59,7 +61,8 @@ fun releaseChangelog(changelogFile: File, version: String): File {
 }
 
 fun updateProjectVersion(propertiesFile: File, version: String, versionPropertyName: String = "version"): File {
-    val tempFile = createTempFile()
+    val tempFilePath = Files.createTempFile("tmp", "release")
+    val tempFile = File(tempFilePath.toUri())
     val versionRegex = projectVersionRegex(versionPropertyName)
 
     var updated = false
