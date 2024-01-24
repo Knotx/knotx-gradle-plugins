@@ -3,7 +3,8 @@ All notable changes to `knotx-fragments` will be documented in this file.
 
 ## Unreleased
 List of changes that are finished but not yet released in any final version.
-                
+- [PR-50](https://github.com/Knotx/knotx-gradle-plugins/pull/50) Upgrade JDK from 8 to 11, upgrade Gradle to 7.6.3
+        
 ## 2.3.1
                 
 ## 2.3.0
