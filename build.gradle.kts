@@ -30,12 +30,7 @@ repositories {
 }
 
 dependencies {
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.5.21"))
-
-    implementation(gradleApi())
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-
-    testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
     testImplementation(gradleTestKit())
 }
 
@@ -77,7 +72,7 @@ tasks {
     val ratTask = named<org.nosphere.apache.rat.RatTask>("rat") {
         excludes.addAll(listOf(
             "**/*.md", // docs
-            "gradle/wrapper/**", "gradle*", "**/build/**", // Gradle
+            "gradle/wrapper/**", "gradle*", "**/build/**", "**/bin/**", // Gradle
             "*.iml", "*.ipr", "*.iws", "*.idea/**", // IDEs
             "**/generated/*", "**/*.adoc", "**/resources/**", // assets
             ".github/*"

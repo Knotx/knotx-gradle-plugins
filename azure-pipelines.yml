@@ -27,17 +27,10 @@ variables:
   workspaceDir: knotx-repos
 
 steps:
-  - task: Gradle@2		
-    inputs:		
-      workingDirectory: ''		
-      gradleWrapperFile: 'gradlew'		
-      gradleOptions: '-Xmx3072m'		
-      javaHomeOption: 'JDKVersion'		
-      jdkVersionOption: '1.8'		
-      jdkArchitectureOption: 'x64'		
-      publishJUnitResults: true		
-      testResultsFiles: '**/TEST-*.xml'		
-      tasks: 'build'		
+  - task: Gradle@3
+    inputs:
+      gradleWrapperFile: 'gradlew'
+      tasks: 'build'
     displayName: "Build Gradle Plugins"
   - script: |
       git clone https://github.com/Knotx/knotx-aggregator.git
@@ -57,31 +50,31 @@ steps:
           ./pull-all.sh -r ../../$(workspaceDir) -b $(System.PullRequest.SourceBranch) -a -o $ORGANIZATION
         fi
     displayName: "Clone all repositories"
-  - task: Gradle@2
+  - task: Gradle@3
     inputs:
       gradleWrapperFile: '$(workspaceDir)/knotx-stack/gradlew'
       workingDirectory: '$(workspaceDir)/knotx-stack'
       tasks: 'publish-local-all'
     displayName: "Build Stack dependencies"
-  - task: Gradle@2
+  - task: Gradle@3
     inputs:
       gradleWrapperFile: '$(workspaceDir)/knotx-stack/gradlew'
       workingDirectory: '$(workspaceDir)/knotx-stack'
       tasks: 'build'
     displayName: "Build Stack"
-  - task: Gradle@2
+  - task: Gradle@3
     inputs:
       gradleWrapperFile: '$(workspaceDir)/knotx-docker/gradlew'
       workingDirectory: '$(workspaceDir)/knotx-docker'
       tasks: 'build'
     displayName: "Build Docker image"
-  - task: Gradle@2
+  - task: Gradle@3
     inputs:
       gradleWrapperFile: '$(workspaceDir)/knotx-starter-kit/gradlew'
       workingDirectory: '$(workspaceDir)/knotx-starter-kit'
       tasks: 'build-stack'
     displayName: "Build Starter Kit: ZIP"
-  - task: Gradle@2
+  - task: Gradle@3
     inputs:
       gradleWrapperFile: '$(workspaceDir)/knotx-starter-kit/gradlew'
       workingDirectory: '$(workspaceDir)/knotx-starter-kit'
