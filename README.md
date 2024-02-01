@@ -19,17 +19,17 @@ plugins {
 ```
 Then point to the root directory with the `Knot.x` configuration, setting the `knotx.conf` property in `gradle.properties`. E.g:
 
-```
+```conf
 knotx.conf=src/main/packaging
 ```
 Now you can configure `clean` and `build` tasks with Knot.x Distribution Plugin tasks (see their descriptions below):
 
-```
+```kotlin
 tasks.named("build") { finalizedBy("assembleCustomDistribution") }
 tasks.named("clean") { dependsOn("cleanDistribution") }
 ```
 All your custom modules can be easily configured with the `dist` configuration, e.g:
-```
+```kotlin
 dependencies {
     subprojects.forEach { "dist"(project(":${it.name}")) }
 }
@@ -65,3 +65,7 @@ pluginManagement {
 
 After that, you can push the new version of `knotx-gradle-plugins` to your local Maven repository (via Gradle's `publishToMavenLocal` task),
 and verify that the added functionality works as expected.
+
+## Development
+
+Run `./gradlew clean build` to build the project.
